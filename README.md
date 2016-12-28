@@ -25,18 +25,18 @@ Install the component with bower:
 ```
 -->
 ```html
-<my-element
+<ken-burns-image
    source="kb_example.jpg"
    viewport-width="450px"
    viewport-height="250px"
    scale-start="0.96"
-   scale-end="2"
+   scale-end="1.8"
    translate-x-end="-290px"
    translate-y-end="-180"  
-></my-element>
+></ken-burns-image>
 ```
  This example will create a viewport 450px by 250px to display the image. It starts the animation with the image not visible and scaled by 0.96. The image fades in then over the length of the animation, will end
- with a scale of 2 and shift the image to the left and down by -290px and -180px respectively before fading out at the end of the cycle. _See the Syling section
+ with a scale factor of 1.8 and shift the image to the left and down by -290px and -180px respectively before fading out at the end of the cycle. _See the Syling section
  for a description of the default values for the other properties that were not explicitly specified in the example._
  
 ### Styling
