@@ -1,0 +1,391 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`ken-burns-image`
+A Polymer web component that will fade, zoom and pan an image in a manner often referred to as the "Ken Burns effect".
+
+This component has a single animation applied to the image with keyframes that; perform an initial transform (scale and
+translation) and opacity setting at 0%, sets the opacity to 1 at 10%, completes a final transform (scale and translation) at
+95% and then another opacity setting at 100%. Most aspects of the animation are controllable via CSS variables or
+component properties. The animation occurs within a fixed viewport. The size of the viewport is also set via CSS
+variables or component properties.
+
+Example:
+
+`<ken-burns-image
+  source="myImage.jpg"
+  viewport-width="450px"
+  viewport-height="300px"
+  scale-start="2"
+  scale-end="1"
+  translate-x-start="0px"
+  translate-x-end="-250px" t
+  ranslate-y-start="0px"
+  translate-y-end="-180px"
+  opacity-start="0"
+  opacity-end="0"></ken-burns-image>`
+
+With this example, the image (myImage.jpg) will fade in zoomed by a factor of 2 (centered). It will then move the image
+to the left by 250px and down by 180px and zoom out to its original size. Finally, in the last 5% if the animation it
+will fade out. The animation cycle will take 15 seconds (default) and will repeat infinitely (default).
+
+
+### Styling
+
+Provides the following custom CSS properties for stying and animation control:
+
+Custom property  | Description | Default
+-----------------|-------------|--------
+`--kb-animation-duration` | Duration of the animation | 15s
+`--kb-animation-count`  | Animation iteration count | `infinite`
+`--kb-viewport-width` | Sets the width of the image viewport | `auto`
+`--kb-viewport-height` | Sets the height of the image viewport | `auto`
+`--kb-background-color` | Sets the background color of the viewport | `auto`
+`--kb-scale-start` | Sets the image scale at start of animation | `1`
+`--kb-scale-end` | Sets the image scale at end of animation | `1`
+`--kb-translate-x-start` | Sets the x axis translation at start of animation | `0px`
+`--kb-translate-x-end` | Sets the x axis translation at end of animation   | `0px`
+`--kb-translate-y-start` | Sets the y axis translation at start of animation | `0px`
+`--kb-translate-y-end` | Sets the y axis translation at end of animation   | `0px`
+`--kb-opacity-start` | Sets image opacity at the start of animation | `0`
+`--kb-opacity-end` | Sets image opacity at the end of animation | `0`
+
+-->
+
+<dom-module id="ken-burns-image">
+  <template>
+    <style>
+      :host {
+        --animation-duration: var(--kb-animation-duration, 15s);
+        --animation-count: var(--kb-animation-count, infinite);
+        --scale-start: var(--kb-scale-start, 1);
+        --scale-end: var(--kb-scale-end, 1);
+        --translate-x-start: var(--kb-translate-x-start, 0px);
+        --translate-y-start: var(--kb-translate-y-start,0px);
+        --translate-x-end: var(--kb-translate-x-end, 0px);
+        --translate-y-end: var(--kb-translate-y-end, 0px);
+        --opacity-start: var(--kb-opacity-start, 0);
+        --opacity-end: var(--kb-opacity-end, 0);
+        --viewport-width: var(--kb-viewport-width, auto);
+        --viewport-height: var(--kb-viewport-height, auto);
+      }
+      .imgContainer {
+        display: block;
+        background-color: var(--kb-background-color, inherit);
+        will-change: transform;
+        overflow: hidden;
+        border: 2px black;
+        width: var(--viewport-width);
+        height: var(--viewport-height);
+      }
+      .run-animation {
+        animation: kenburns var(--animation-duration) var(--animation-count);
+      }
+      @keyframes kenburns {
+        0% {
+          /*transform: scale(var(--scale-start), var(--scale-start)) translate(calc(var(--translate-x-start) * 1px),calc(var(--translate-y-start) * 1px));*/
+          transform: scale(var(--scale-start), var(--scale-start)) translate(var(--translate-x-start),var(--translate-y-start));
+          opacity: var(--opacity-start);
+        }
+        10% {
+          opacity: 1;
+          animation-timing-function: ease-in;
+        }
+        95% {
+          /*transform: scale(var(--scale-end), var(--scale-end)) translate(calc(var(--translate-x-end) * 1px),calc(var(--translate-y-end) * 1px));*/
+          transform: scale(var(--scale-end), var(--scale-end)) translate(var(--translate-x-end), var(--translate-y-end));
+          animation-timing-function: ease-in;
+          opacity: 1;
+        }
+        100% {
+          transform: scale(var(--scale-end), var(--scale-end)) translate(var(--translate-x-end), var(--translate-y-end));
+          opacity: var(--opacity-end);
+        }
+      }
+    </style>
+    <div class="imgContainer" id="imageContainer">
+      <img id="kbImg" src="{{source}}" />
+    </div>
+  </template>
+
+  <script>
+
+    Polymer({
+      is: 'ken-burns-image',
+      properties: {
+        /**
+         *  The URL to the image to animate.
+         */
+        source: {
+          type: String,
+          value: null,
+          observer: '_sourceChanged'
+        },
+        /**
+         *  Can be used to set the width of image viewport (e.g. via binding); size may also be
+         * set via CSS.
+         */
+        viewportWidth: {
+          type: String,
+          value: null,
+          observer: '_widthChanged'
+        },
+        /**
+         *  Can be used to set the height of image viewport (e.g. via binding); size may also be
+         * set via CSS.
+         */
+        viewportHeight: {
+          type: String,
+          value: null,
+          observer: '_heightChanged'
+        },
+        /**
+         *  Can be used to set the animation duration. Default unit if not provided is seconds.
+         */
+        animationDuration: {
+          type: String,
+          value: null,
+          observer: '_durationChanged'
+        },
+        /**
+         *  Can be used to set the animation iteration count.
+         */
+        animationCount: {
+          type: String,
+          value: null,
+          observer: '_countChanged'
+        },
+        /**
+         *  Can be used to set the scale at the start of the animation. Both the x and y axes are scaled the same.
+         */
+        scaleStart: {
+          type: Number,
+          value: null,
+          observer: '_scaleStartChanged'
+        },
+        /**
+         *  Can be used to set the scale at the end of the animation. Both the x and y axes are scaled the same.
+         */
+        scaleEnd: {
+          type: Number,
+          value: null,
+          observer: '_scaleEndChanged'
+        },
+        /**
+         *  Can be used to set the x axis translation that occurs at the start of the animation. The default units if
+         *  not specified is `px`
+         */
+        translateXStart: {
+          type: String,
+          value: null,
+          observer: '_xStartChanged'
+        },
+        /**
+         *  Can be used to set the x axis translation that occurs at the end of the animation. The default units if
+         *  not specified is `px`
+         */
+        translateXEnd: {
+          type: String,
+          value: null,
+          observer: '_xEndChanged'
+        },
+        /**
+         *  Can be used to set the y axis translation that occurs at the start of the animation. The default units if
+         *  not specified is `px`
+         */
+        translateYStart: {
+          type: String,
+          value: null,
+          observer: '_yStartChanged'
+        },
+        /**
+         *  Can be used to set the y axis translation that occurs at the end of the animation. The default units if
+         *  not specified is `px`
+         */
+        translateYEnd: {
+          type: String,
+          value: null,
+          observer: '_yEndChanged'
+        },
+        /**
+         *  Can be used to set the image opacity at the start of the animation. Between 0% and 10% of the animation, the
+         *  opacity transitions from this value to 1.
+         */
+        opacityStart: {
+          type: Number,
+          value: null,
+          observer: '_opacityStartChanged'
+        },
+        /**
+         *  Can be used to set the image opacity at the end of the animation. Between 95% and 100% of the animation, the
+         *  opacity transitions from 1 to this value.
+         */
+        opacityEnd: {
+          type: Number,
+          value: null,
+          observer: '_opacityEndChanged'
+        }
+      },
+      ready: function () {
+        console.log("KB image ready");
+        var pfx = ["webkit", "moz", "MS", "o", ""];
+        var element = this.$.kbImg;
+        var type = 'AnimationIteration';
+        var that = this;
+        for (var p = 0; p < pfx.length; p++) {
+          if (!pfx[p]) type = type.toLowerCase();
+          element.addEventListener(pfx[p]+type, function () {
+            that.fire('kb-animation-iteration', {image: that.source});
+          }, false);
+        }
+        this._sourceChanged();
+      },
+      /**
+       *  Allows for a manual start of the animation. The animation is automatically started by default.
+       */
+      start: function () {
+        this.toggleClass('run-animation', true, this.$.kbImg);
+      },
+      /**
+       *  Allows for a manual stop of a running animation. The animation is automatically started by default.
+       */
+      stop: function () {
+        this.toggleClass('run-animation', false, this.$.kbImg);
+      },
+      /**
+       * Restarts the animation when the source changes
+       */
+      _sourceChanged: function () {
+        console.log("KB source changed");
+        if (this.source) {
+          this._updateAnimation();
+        }
+      },
+      /**
+       *  Sets the viewport width CCS custom property
+       */
+      _widthChanged: function() {
+        if (this.viewportWidth !== null) {
+          this.customStyle['--viewport-width'] = isNaN(this.viewportWidth) ? this.viewportWidth : this.viewportWidth + 'px';
+        }
+      },
+      /**
+       *  Sets the viewport height CSS custom property
+       */
+      _heightChanged: function() {
+        if (this.viewportHeight !== null) {
+          this.customStyle['--viewport-height'] = isNaN(this.viewportHeight) ? this.viewportHeight : this.viewportHeight + 'px';
+        }
+      },
+      /**
+       *  Sets the animation-duration CSS custom property
+       */
+      _durationChanged: function() {
+        if (this.animationDuration !== null) {
+          this.customStyle['--animation-duration'] = isNaN(this.animationDuration) ?  this.animationDuration : this.animationDuration + 's';
+          this.updateStyles();
+        }
+      },
+      /**
+       * Sets the animation-count CSS custom property
+       */
+      _countChanged: function() {
+        if (this.animationCount !== null) {
+          this.customStyle['--animation-count'] = isNaN(this.animationCount) ? this.animationCount : this.animationCount.toString();
+          this.updateStyles();
+        }
+      },
+      /**
+       * Set the scale-start CSS custom property. Must be a dimensionless number
+       */
+      _scaleStartChanged: function () {
+        if (this.scaleStart !== null && !isNaN(this.scaleStart)) {
+          this.customStyle['--scale-start'] = this.scaleStart.toString();
+          this.updateStyles();
+        }
+      },
+      /**
+       *  Sets the scale-end CSS custom property
+       */
+      _scaleEndChanged: function () {
+        if (this.scaleEnd !== null && !isNaN(this.scaleEnd)) {
+          this.customStyle['--scale-end'] = this.scaleEnd.toString();
+          this.updateStyles();
+        }
+      },
+      /**
+       * Sets the translate-x-start CSS custom property
+       */
+      _xStartChanged: function () {
+        if (this.translateXStart !== null) {
+          this.customStyle['--translate-x-start'] = isNaN(this.translateXStart) ? this.translateXStart : this.translateXStart + 'px';
+          this.updateStyles();
+        }
+      },
+      /**
+       * Sets the translate-x-end CSS custom property
+       */
+      _xEndChanged: function () {
+        if (this.translateXEnd !== null) {
+          this.customStyle['--translate-x-end'] = isNaN(this.translateXEnd) ? this.translateXEnd : this.translateXEnd + 'px';
+          this.updateStyles();
+        }
+      },
+      /**
+       * Sets the translate-y-start CSS custom property
+       */
+      _yStartChanged: function () {
+        if (this.translateYStart !== null) {
+          this.customStyle['--translate-y-start'] = isNaN(this.translateYStart) ? this.translateYStart : this.translateYStart + 'px';
+          this.updateStyles();
+        }
+      },
+      /**
+       *  Sets the translate-y-end CSS custom property
+       */
+      _yEndChanged: function () {
+        if (this.translateYEnd !== null) {
+          this.customStyle['--translate-y-end'] = isNaN(this.translateYEnd) ? this.translateYEnd : this.translateYEnd + 'px';
+          this.updateStyles();
+        }
+      },
+      /**
+       *  Sets the opacity-start CSS custom property
+       */
+      _opacityStartChanged: function () {
+        if (this.opacityStart !== null && !isNaN(this.opacityStart)) {
+          this.customStyle['--opacity-start'] = this.opacityStart.toString();
+          this.updateStyles();
+        }
+      },
+      /**
+       * Sets the opacity-end CSS custom property
+       */
+      _opacityEndChanged: function () {
+        if (this.opacityEnd !== null && !isNaN(this.opacityEnd)) {
+          this.customStyle['--opacity-end'] = this.opacityEnd.toString();
+          this.updateStyles();
+        }
+      },
+      /**
+       *  Forces an animation restart by removing and reapplying the animation
+       */
+      _updateAnimation: function () {
+        var el = this.$.kbImg;
+        this.toggleClass('run-animation', false, el);
+        this.toggleClass('run-animation', true, el);
+        console.log("KB animation updated " );
+      },
+
+
+    });
+    /**
+     * Fired when an animation iteration finishes.
+     * This may be useful if you want to switch image sources and /or animation parameters after an animation
+     * cycle completes
+     *
+     * @event kb-animation-iteration
+     * @param {string} source Contains the source image path.
+     */
+  </script>
+</dom-module>

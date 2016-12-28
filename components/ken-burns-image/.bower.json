@@ -1,0 +1,26 @@
+{
+  "name": "ken-burns-image",
+  "description": "Component that pans and zooms an image in a maner often refered to as the &#34;Ken Burns&#34; effect&#34;",
+  "main": "ken-burns-image.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+    "paper-radio-group": "^1.2.1"
+  },
+  "homepage": "https://github.com/vogelrh/ken-burns-image",
+  "_release": "2c4ad3d279",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "2c4ad3d27952fac417021e69018e1cbf2735ed7a"
+  },
+  "_source": "https://github.com/vogelrh/ken-burns-image.git",
+  "_target": "master",
+  "_originalSource": "vogelrh/ken-burns-image",
+  "_direct": true
+}

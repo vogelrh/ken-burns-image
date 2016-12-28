@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>ken-burns-image demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../paper-radio-group/paper-radio-group.html">
+    <link rel="import" href="../../paper-radio-button/paper-radio-button.html">
+    <link rel="import" href="../ken-burns-image.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      :root {
+        --kb-viewport-width: 450px;
+        --kb-viewport-height: 250px;
+        --kb-animation-duration: 15s;
+        --kb-background-color: black;
+        --kb-scale-start: 0.96;
+        --kb-scale-end: 2;
+        --kb-translate-x-start: 0px;
+        --kb-translate-y-start: 0px;
+        --kb-translate-x-end: -290px;
+        --kb-translate-y-end: -180px;
+      --demo-snippet: {
+          min-width: 490px;
+          padding: 10px;
+        } ;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic ken-burns-image demo</h3>
+      <demo-snippet>
+        <template>
+          <ken-burns-image id="kbi"
+            source="kb_example.jpg"
+          >
+          </ken-burns-image>
+          <label id="label1">Transition:</label>
+          <paper-radio-group selected="t1" aria-labelledby="label1">
+            <paper-radio-button name="t1" onclick="setTransition(1)">Continuous</paper-radio-button>
+            <paper-radio-button name="t2" onclick="setTransition(2)">Two Iterations</paper-radio-button>
+          </paper-radio-group>
+        </template>
+      </demo-snippet>
+    </div>
+  <script>
+    function setTransition(num) {
+      var kbi = document.getElementById("kbi");
+      switch (num)  {
+        case 1:
+        kbi.scaleStart = 0.96;
+          kbi.scaleEnd = 2;
+          kbi.viewportWidth = '450px';
+          kbi.viewportHeight = '250px';
+          kbi.translateXStart = '0px';
+          kbi.translateXEnd = '-290px';
+          kbi.translateYStart = '0px';
+          kbi.translateYEnd = '-180px';
+          kbi.animationCount = 'infinite';
+          kbi.animationDuration = '15s';
+          kbi.opacityStart = 0;
+          kbi.opacityEnd = 0;
+        break;
+        case 2:
+          kbi.scaleStart = 2;
+          kbi.scaleEnd = 1;
+          kbi.viewportWidth = '350px';
+          kbi.viewportHeight = '250px';
+          kbi.translateXStart = '50px';
+          kbi.translateXEnd = '-100px';
+          kbi.translateYStart = '50px';
+          kbi.translateYEnd = '-150px';
+          kbi.opacityStart = 1;
+          kbi.opacityEnd = 1;
+          kbi.animationCount = 2;
+          kbi.animationDuration= '10s';
+      }
+      //kbi.animationNumber = num;
+    }
+  </script>
+  </body>
+</html>
