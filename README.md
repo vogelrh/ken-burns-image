@@ -1,3 +1,4 @@
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://beta.webcomponents.org/element/vogelrh/ken-burns-image)
 # \<ken-burns-image\>
 
 A Polymer Web Component that pans and zooms an image in a manner often referred to as the _[Ken Burns Effect](https://en.wikipedia.org/wiki/Ken_Burns_effect)_
