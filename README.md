@@ -26,7 +26,7 @@ Install the component with bower:
 -->
 ```html
 <ken-burns-image
-   source="https://vogelrh.github.io/ken-burns-image/components/ken-burns-image/demo/kb_example.jpg"
+   source="demo/kb_example.jpg"
    viewport-width="450px"
    viewport-height="250px"
    scale-start="0.96"
