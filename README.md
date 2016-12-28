@@ -1,6 +1,6 @@
 # \<ken-burns-image\>
 
-Component that pans and zooms an image in a maner often refered to as the &#34;Ken Burns&#34; effect&#34;
+A Polymer Web Component that pans and zooms an image in a manner often referred to as the &#34;Ken Burns&#34; Effect&#34;
 
 ## Install the Polymer-CLI
 

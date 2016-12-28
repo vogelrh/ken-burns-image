@@ -17,15 +17,15 @@
     <style is="custom-style" include="demo-pages-shared-styles">
       :root {
         --kb-viewport-width: 450px;
-        --kb-viewport-height: 300px;
-        --kb-animation-duration: 10s;
+        --kb-viewport-height: 250px;
+        --kb-animation-duration: 15s;
         --kb-background-color: black;
-        --kb-scale-start: 1;
+        --kb-scale-start: 0.96;
         --kb-scale-end: 2;
         --kb-translate-x-start: 0px;
         --kb-translate-y-start: 0px;
         --kb-translate-x-end: -290px;
-        --kb-translate-y-end: -220px;
+        --kb-translate-y-end: -180px;
       --demo-snippet: {
           min-width: 490px;
           padding: 10px;
@@ -34,50 +34,44 @@
 
     </style>
   </head>
-  <body onload="loaded()">
+  <body>
     <div class="vertical-section-container centered">
       <h3>Basic ken-burns-image demo</h3>
       <demo-snippet>
         <template>
           <ken-burns-image id="kbi"
-            source="example_sm2.jpg"
-            scale-start="2"
-            scale-end="1"
-            translate-x-start="0px"
-            translate-x-end="-290px"
-            translate-y-start="0px"
-            translate-y-end="-220px"
+            source="kb_example.jpg"
           >
           </ken-burns-image>
           <label id="label1">Transition:</label>
           <paper-radio-group selected="t1" aria-labelledby="label1">
-            <paper-radio-button name="t1" onclick="setTransition(1)">One</paper-radio-button>
-            <paper-radio-button name="t2" onclick="setTransition(2)">Two</paper-radio-button>
+            <paper-radio-button name="t1" onclick="setTransition(1)">Continuous</paper-radio-button>
+            <paper-radio-button name="t2" onclick="setTransition(2)">Two Iterations</paper-radio-button>
           </paper-radio-group>
         </template>
       </demo-snippet>
     </div>
   <script>
-    function loaded () {    //TODO kbi is null when this fumction fires
-      var kbi = document.getElementById("kbi");
-      kbi.addEventListener('kb-animation-iteration', function(e) {console.log("Animation Complete ", e)})
-    }
     function setTransition(num) {
       var kbi = document.getElementById("kbi");
       switch (num)  {
         case 1:
-        kbi.scaleStart = 2;
-          kbi.scaleEnd = 1;
+        kbi.scaleStart = 0.96;
+          kbi.scaleEnd = 2;
           kbi.viewportWidth = '450px';
-          kbi.viewportHeight = '300px';
+          kbi.viewportHeight = '250px';
           kbi.translateXStart = '0px';
           kbi.translateXEnd = '-290px';
           kbi.translateYStart = '0px';
-          kbi.translateYEnd = '-220px';
+          kbi.translateYEnd = '-180px';
+          kbi.animationCount = 'infinite';
+          kbi.animationDuration = '15s';
+          kbi.opacityStart = 0;
+          kbi.opacityEnd = 0;
         break;
         case 2:
-          kbi.scaleStart = 1;
-          kbi.scaleEnd = 2;
+          kbi.scaleStart = 2;
+          kbi.scaleEnd = 1;
           kbi.viewportWidth = '350px';
           kbi.viewportHeight = '250px';
           kbi.translateXStart = '50px';
@@ -87,7 +81,7 @@
           kbi.opacityStart = 1;
           kbi.opacityEnd = 1;
           kbi.animationCount = 2;
-          kbi.animationDuration= '5s';
+          kbi.animationDuration= '10s';
       }
       //kbi.animationNumber = num;
     }

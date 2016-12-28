@@ -2,10 +2,9 @@
 
 <!--
 `ken-burns-image`
-An image container that will fade-in/out, zoom-in/out and pan an image in a manner
-often referred to as the "Ken Burns effect".
+A Polymer web component that will fade, zoom and pan an image in a manner often referred to as the "Ken Burns effect".
 
-This component has a single animation applied to its image with keyframes that; perform an initial transform (scale and
+This component has a single animation applied to the image with keyframes that; perform an initial transform (scale and
 translation) and opacity setting at 0%, sets the opacity to 1 at 10%, completes a final transform (scale and translation) at
 95% and then another opacity setting at 100%. Most aspects of the animation are controllable via CSS variables or
 component properties. The animation occurs within a fixed viewport. The size of the viewport is also set via CSS
@@ -20,15 +19,15 @@ Example:
   scale-start="2"
   scale-end="1"
   translate-x-start="0px"
-  translate-x-end="-290px" t
+  translate-x-end="-250px" t
   ranslate-y-start="0px"
-  translate-y-end="-220px"
+  translate-y-end="-180px"
   opacity-start="0"
   opacity-end="0"></ken-burns-image>`
 
-With this example, the image (myImage.jpg) will fade in with zoomed by a factor of 2 (centered). It will then move left
-by 290px and down by 220px and zoom out to its original size. Finally, in the last 5% if the animation it will fade out.
-The animation cycle will take 20 seconds (default) and will repeat infinitely (default).
+With this example, the image (myImage.jpg) will fade in zoomed by a factor of 2 (centered). It will then move the image
+to the left by 250px and down by 180px and zoom out to its original size. Finally, in the last 5% if the animation it
+will fade out. The animation cycle will take 15 seconds (default) and will repeat infinitely (default).
 
 
 ### Styling
@@ -37,7 +36,7 @@ Provides the following custom CSS properties for stying and animation control:
 
 Custom property  | Description | Default
 -----------------|-------------|--------
-`--kb-animation-duration` | Duration of the animation | 20s
+`--kb-animation-duration` | Duration of the animation | 15s
 `--kb-animation-count`  | Animation iteration count | `infinite`
 `--kb-viewport-width` | Sets the width of the image viewport | `auto`
 `--kb-viewport-height` | Sets the height of the image viewport | `auto`
@@ -57,7 +56,7 @@ Custom property  | Description | Default
   <template>
     <style>
       :host {
-        --animation-duration: var(--kb-animation-duration, 20s);
+        --animation-duration: var(--kb-animation-duration, 15s);
         --animation-count: var(--kb-animation-count, infinite);
         --scale-start: var(--kb-scale-start, 1);
         --scale-end: var(--kb-scale-end, 1);
@@ -382,7 +381,8 @@ Custom property  | Description | Default
     });
     /**
      * Fired when an animation iteration finishes.
-     * This is useful if you want to switch sources and animations
+     * This may be useful if you want to switch image sources and /or animation parameters after an animation
+     * cycle completes
      *
      * @event kb-animation-iteration
      * @param {string} source Contains the source image path.
