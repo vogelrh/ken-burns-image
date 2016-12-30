@@ -1,10 +1,17 @@
 {
   "name": "ken-burns-image",
-  "description": "Component that pans and zooms an image in a maner often refered to as the &#34;Ken Burns&#34; effect&#34;",
+  "description": "Component that pans and zooms an image in a manmer often referred to as the Ken Burns Effect;",
   "main": "ken-burns-image.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0"
   },
+  ,
+  "keywords": [
+    "web-components",
+    "polymer",
+    "ken burns",
+    "image"
+  ],
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
