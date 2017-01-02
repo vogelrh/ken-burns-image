@@ -1,17 +1,24 @@
 {
   "name": "ken-burns-image",
   "description": "Component that pans and zooms an image in a manmer often referred to as the Ken Burns Effect;",
+  "version": "1.0.4",
   "main": "ken-burns-image.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0"
   },
-  ,
   "keywords": [
     "web-components",
     "polymer",
     "ken burns",
-    "image"
+    "image",
+    "animation"
   ],
+  "authors": ["Robert Vogel"],
+  "license": "The MIT License",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vogelrh/ken-burns-effect.git"
+  },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
